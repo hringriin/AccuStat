@@ -3,9 +3,9 @@ package AccuStat;
 public class AAA extends Battery
 {
 
-    public AAA (String pName)
+    public AAA (final String pName, final Brand pBrand)
     {
-        super(pName);
+        super(pName, pBrand);
     }
 
 }

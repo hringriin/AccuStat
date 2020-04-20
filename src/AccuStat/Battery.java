@@ -14,6 +14,11 @@ public class Battery {
     private final String name;
 
     /**
+     * brand of battery (duracell, panasonic, ...)
+     */
+    private final Brand brand;
+
+    /**
      * last known voltage
      */
     private double voltage;
@@ -26,12 +31,16 @@ public class Battery {
      * @param pName The name/id of the battery
      * @param pType The type of the battery (i.e. AA, AAA, etc.)
      */
-    public Battery (final String pName)
+    public Battery (final String pName, final Brand pBrand)
     {
         if ( pName.equals("") || pName == null )
             throw new IllegalArgumentException("No name given");
 
+        if ( pBrand == null )
+            throw new IllegalArgumentException("No brand given");
+
         this.name = pName;
+        this.brand = pBrand;
         this.voltageList = new ArrayList<Entry<LocalDateTime,Double>>();
     }
 
