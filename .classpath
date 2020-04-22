@@ -19,5 +19,6 @@
 	<classpathentry kind="lib" path="/usr/lib/eclipse/plugins/com.ibm.icu_64.2.0.v20190507-1337.jar" sourcepath="/usr/lib/eclipse/plugins/com.ibm.icu_64.2.0.v20190507-1337.jar"/>
 	<classpathentry kind="lib" path="/usr/lib/eclipse/plugins/org.eclipse.ui.forms_3.9.0.v20200213-1442.jar" sourcepath="/usr/lib/eclipse/plugins/org.eclipse.ui.forms_3.9.0.v20200213-1442.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-13"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

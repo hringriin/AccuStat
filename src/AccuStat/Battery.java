@@ -1,10 +1,10 @@
 package AccuStat;
 
-import java.util.ArrayList;
-import java.util.AbstractMap;
-import java.util.Map.Entry;
 //import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Map.Entry;
 
 public class Battery {
 
@@ -19,10 +19,18 @@ public class Battery {
     private final Brand brand;
 
     /**
+     * type of battery, i.e. AA, AAA, etc
+     */
+    private final String type;
+
+    /**
      * last known voltage
      */
     private double voltage;
 
+    /**
+     * list of voltages with date of mesurement
+     */
     private ArrayList<Entry<LocalDateTime,Double>> voltageList;
 
     /**
@@ -31,13 +39,22 @@ public class Battery {
      * @param pName The name/id of the battery
      * @param pType The type of the battery (i.e. AA, AAA, etc.)
      */
-    public Battery (final String pName, final Brand pBrand)
+    public Battery (final String pName, final String pType, final Brand pBrand)
     {
         if ( pName.equals("") || pName == null )
             throw new IllegalArgumentException("No name given");
 
         if ( pBrand == null )
             throw new IllegalArgumentException("No brand given");
+
+        if ( pType.equals("AA") || pType.equals("AAA") )
+        {
+            this.type = pType;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Battery type unknown");
+        }
 
         this.name = pName;
         this.brand = pBrand;
@@ -75,15 +92,37 @@ public class Battery {
      *
      * @param pVoltage the new Voltage
      */
-    public void setVoltage( final double pVoltage )
+    public boolean setVoltage( final double pVoltage )
     {
         if ( pVoltage < 0 )
-            throw new IllegalArgumentException("Voltage cannot be lower than zero!");
+            return false;
 
-        if ( pVoltage > 2 )
-            throw new IllegalArgumentException("What kind of battery are you using? VOLTAGE TOO HIGH!");
+        if ( pVoltage > 1.6 )
+            return false;
 
         this.voltage = pVoltage;
         this.voltageList.add(new AbstractMap.SimpleEntry<LocalDateTime,Double>(LocalDateTime.now(), pVoltage));
+
+        return true;
+    }
+
+    public Brand getBrand ()
+    {
+        return this.brand;
+    }
+
+    public String getType()
+    {
+        return this.type;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.getBrand()
+                + " ("
+                + this.getType()
+                + "): "
+                + this.getName();
     }
 }
