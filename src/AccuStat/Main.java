@@ -12,6 +12,10 @@ import GUI.GUI_Main;
  * @since 0.1a
  */
 public class Main {
+    /**
+     * Version number
+     */
+    private static String versionNumber = "v0.1a";
 
     /**
      * Date format
@@ -24,19 +28,20 @@ public class Main {
     private static ArrayList<Brand> BRANDS;
 
     /**
-     * list of types
+     * list of types, e.g. AA, AAA, ...
      */
-    private static ArrayList<String> TYPES;
+    private static ArrayList<Type> TYPES;
 
     /**
-     * List of AA Batteries
+     * List of Batteries
      */
-    private static ArrayList<Battery> List_AA;
+    private static ArrayList<Battery> BATTERIES;
 
     /**
-     * List of AAA Batteries
+     * GUI Main, starting itself.
      */
-    private static ArrayList<Battery> List_AAA;
+    @SuppressWarnings("unused")
+    private static GUI_Main GUI = new GUI_Main();
 
     /**
      * Does stuff ...
@@ -45,88 +50,90 @@ public class Main {
      */
     public static void main(String args[])
     {
-        GUI_Main.startGUI();
-
-        List_AA = new ArrayList<Battery>();
-        List_AAA = new ArrayList<Battery>();
-        TYPES = new ArrayList<String>();
+        BATTERIES = new ArrayList<Battery>();
+        TYPES = new ArrayList<Type>();
         BRANDS = new ArrayList<Brand>();
 
-        TYPES.add("AA");
-        TYPES.add("AAA");
+        TYPES.add(new Type("AA"));
+        TYPES.add(new Type("AAA"));
+
+        BRANDS.add(new Brand("TEST-Brand"));
     }
 
-    /**
-     * Create a new AA-battery and add it to the list
-     */
-    public static boolean new_AA_Battery(final String pName, final String pType, final Brand pBrand)
+    public static ArrayList<Battery> get_Batteries()
     {
-        if ( BRANDS.size() == 0 )
-            throw new IllegalArgumentException("Brand list is empty."
-                    + "Cannot add Battery without a brand to choose from."
-                    + "Add a brand first.");
-
-        if ( pBrand == null )
-            throw new IllegalArgumentException("No brand name given!");
-
-        AA bat = new AA(pName, pType, pBrand);
-        List_AA.add(bat);
-        GUI_Main.addToAccuList(bat);
-
-        return true;
+        return new ArrayList<Battery>(BATTERIES);
     }
 
-    /**
-     * Create a new AAA-Battery and add it to the list
-     */
-    public static boolean new_AAA_Battery(final String pName, final String pType, final Brand pBrand)
+    public static ArrayList<Brand> get_Brands()
     {
-        if ( BRANDS.size() == 0 )
-            throw new IllegalArgumentException("Brand list is empty."
-                    + "Cannot add Battery without a brand to choose from."
-                    + "Add a brand first.");
+        if ( BRANDS.size() > 0 )
+            return new ArrayList<Brand>(BRANDS);
 
-        if ( pBrand == null )
-            throw new IllegalArgumentException("No brand name given!");
-
-        AAA bat = new AAA(pName, pType, pBrand);
-        List_AAA.add(bat);
-        GUI_Main.addToAccuList(bat);
-
-        return true;
+        throw new IllegalArgumentException("HIER HAETTE ICH NICHT ANKOMMEN SOLLEN");
     }
 
-    public static boolean newBrand( final String pString )
+    public static ArrayList<Type> get_Types()
     {
-        if ( pString.equals("") || pString == null )
+        return new ArrayList<Type>(TYPES);
+    }
+
+    public static String getVersionNumber()
+    {
+        return versionNumber;
+    }
+
+    public static void newBrand( String pBrand )
+    {
+        if ( pBrand.equals("") || pBrand == null )
             throw new IllegalArgumentException("Brand name must not be empty!");
 
-        for ( Brand b : BRANDS )
-        {
-            if ( b.toString().equals(pString) )
-                return false;
-        }
-
-        BRANDS.add(new Brand(pString));
-        return true;
+        BRANDS.add(new Brand(pBrand));
     }
 
-    public static boolean removeBrand ( final Brand pBrand )
+    public static void removeBrand ( Brand pBrand )
     {
         if ( pBrand == null )
-            throw new IllegalArgumentException("Cannot remove a brand without a name.");
+            throw new IllegalArgumentException("Brand name to be deleted must not be empty or null!");
 
         BRANDS.remove(pBrand);
-        return true;
     }
 
-    public static ArrayList<Brand> getBrands()
+    public static void newType ( String pType )
     {
-        return new ArrayList<Brand>(BRANDS);
+        if ( pType.equals("") || pType == null )
+            throw new IllegalArgumentException("Type name must not be empty!");
+
+        TYPES.add(new Type(pType));
     }
 
-    public static ArrayList<String> getTypes()
+    public static void removeType ( Type pType )
     {
-        return new ArrayList<String>(TYPES);
+        if ( pType == null )
+            throw new IllegalArgumentException("Type name to be deleted must not be empty or null!");
+
+        TYPES.remove(pType);
+    }
+
+    public static void newBattery ( String pBattery, Type pType, Brand pBrand )
+    {
+        if ( pBattery.equals("") || pBattery == null )
+            throw new IllegalArgumentException("Battery name must not be empty!");
+
+        if ( pType == null )
+            throw new IllegalArgumentException("Type must not be empty!");
+
+        if ( pBrand == null )
+            throw new IllegalArgumentException("Brand must not be empty!");
+
+        BATTERIES.add(new Battery(pBattery, pType, pBrand));
+    }
+
+    public static void removeBattery ( Battery pBattery )
+    {
+        if ( pBattery == null )
+            throw new IllegalArgumentException("Battery name to be deleted must not be empty or null!");
+
+        BATTERIES.remove(pBattery);
     }
 }

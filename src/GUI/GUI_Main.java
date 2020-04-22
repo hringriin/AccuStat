@@ -1,7 +1,6 @@
 package GUI;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,109 +12,67 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import AccuStat.Battery;
-import AccuStat.Brand;
 import AccuStat.Main;
 
 public class GUI_Main
 {
-    private static final String version = "0.1";
-    private static JMenuBar menubar = new JMenuBar();
+    private JFrame frame = new JFrame("AccuStat " + Main.getVersionNumber());
 
-    private static JMenu fileMenu = new JMenu("File");
+    private JMenuBar menubar = new JMenuBar();
 
-    //JMenuItem openConnection = new JMenuItem("Edit Connection");
-    private static JMenuItem closeWindow = new JMenuItem("Exit");
+    private JMenu fileMenu = new JMenu("File");
 
-    private static JPanel panel = new JPanel();
-    private static JPanel panel2 = new JPanel();
-    private static JPanel panel3 = new JPanel();
-    private static JPanel panel4 = new JPanel();
+    private JMenuItem closeWindow = new JMenuItem("Exit");
 
+    private JPanel panelNorth = new JPanel();
+    private JPanel panelSouth = new JPanel();
+    private JPanel panelWest = new JPanel();
+    private JPanel panelEast = new JPanel();
+    private JPanel panelCenter = new JPanel();
 
-    private static JFrame frame = new JFrame ( "AccuStat v" + version );
+    private JButton modifyBrand = new JButton ("Modify Brands");
+    private JButton modifyAccu = new JButton ("Modify Batteries");
+    private JButton modifyType = new JButton ("Modify Types");
 
-    private static JButton newBrand = new JButton ("New Battery Brand");
-    private static JButton newAccu = new JButton ("New Battery");
-    private static JButton button3 = new JButton ("Button 3");
-    private static JButton button4 = new JButton ("Button 4");
-    private static JButton button5 = new JButton ("Button 5");
-    private static JButton button6 = new JButton ("Button 6");
+    private JLabel accuSelectLabel = new JLabel("Select Battery: ");
 
-    private static JLabel accuSelectLabel = new JLabel("Select Battery:");
+    private JComboBox<Battery> accuSelect = new JComboBox<Battery>();
 
-    private static JComboBox<Battery> accuSelect = new JComboBox<Battery>();
+    private GUI_ModifyBrand GUI_addBrand = new GUI_ModifyBrand(this.frame, this);
+    private GUI_ModifyBattery GUI_addBattery = new GUI_ModifyBattery(this.frame);
+    private GUI_ModifyType GUI_addType = new GUI_ModifyType(this.frame);
 
-    public static void startGUI ()
+    public GUI_Main ()
     {
-        menubar.add(fileMenu);
+        this.menubar.add(fileMenu);
 
-        //fileMenu.add(openConnection);
-        fileMenu.add(closeWindow);
+        //this.fileMenu.add(openConnection);
+        this.fileMenu.add(closeWindow);
 
-        closeWindow.addActionListener(e -> System.exit(0));
+        this.closeWindow.addActionListener(e -> System.exit(0));
 
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(1000, 500);
+        this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.frame.setSize(1000, 500);
 
-        newBrand.addActionListener(e -> addBatteryBrand());
-        newAccu.addActionListener(e -> addBattery());
+        this.modifyBrand.addActionListener(e -> this.GUI_addBrand.openMe());
+        this.modifyAccu.addActionListener(e -> this.GUI_addBattery.openMe());
+        this.modifyType.addActionListener(e -> this.GUI_addType.openMe());
 
-        accuSelect.setSize(10, 10);
+        this.frame.setVisible(true);
 
-        frame.setVisible(true);
+        this.panelEast.add(modifyType);
+        this.panelEast.add(modifyBrand);
+        this.panelEast.add(modifyAccu);
 
-        panel.add(newBrand);
-        panel.add(newAccu);
+        this.panelNorth.add(accuSelectLabel);
+        this.panelNorth.add(accuSelect);
 
-        panel2.add(button3);
-        panel2.add(button4);
+        this.frame.getContentPane().add(BorderLayout.NORTH, panelNorth);
+        this.frame.getContentPane().add(BorderLayout.EAST, panelEast);
+        this.frame.getContentPane().add(BorderLayout.WEST, panelWest);
+        this.frame.getContentPane().add(BorderLayout.SOUTH, panelSouth);
+        this.frame.getContentPane().add(BorderLayout.CENTER, panelCenter);
 
-        button5.addActionListener(e -> debugMe() );
-
-        panel3.add(button5);
-        panel3.add(button6);
-
-        panel4.add(accuSelectLabel);
-        panel4.add(accuSelect);
-
-        frame.getContentPane().add(BorderLayout.NORTH, menubar);
-        frame.getContentPane().add(BorderLayout.EAST, panel);
-        frame.getContentPane().add(BorderLayout.WEST, panel2);
-        frame.getContentPane().add(BorderLayout.SOUTH, panel3);
-        frame.getContentPane().add(BorderLayout.CENTER, panel4);
-    }
-
-    public static void debugMe()
-    {
-        ArrayList<Brand> testBrands = Main.getBrands();
-
-        System.out.println("NEW OUTPUT");
-
-        for ( Brand b : testBrands )
-        {
-            System.out.println(b);
-        }
-    }
-
-    public static boolean addToAccuList( Battery pBattery )
-    {
-        if ( pBattery != null )
-        {
-            accuSelect.addItem(pBattery);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public static void addBatteryBrand()
-    {
-        GUI_AddBrand.openMe();
-    }
-
-    public static void addBattery()
-    {
-        GUI_AddBattery.openMe();
+        this.frame.setJMenuBar(menubar);
     }
 }

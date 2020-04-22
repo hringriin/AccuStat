@@ -21,7 +21,7 @@ public class Battery {
     /**
      * type of battery, i.e. AA, AAA, etc
      */
-    private final String type;
+    private final Type type;
 
     /**
      * last known voltage
@@ -39,7 +39,7 @@ public class Battery {
      * @param pName The name/id of the battery
      * @param pType The type of the battery (i.e. AA, AAA, etc.)
      */
-    public Battery (final String pName, final String pType, final Brand pBrand)
+    public Battery (final String pName, final Type pType, final Brand pBrand)
     {
         if ( pName.equals("") || pName == null )
             throw new IllegalArgumentException("No name given");
@@ -47,17 +47,12 @@ public class Battery {
         if ( pBrand == null )
             throw new IllegalArgumentException("No brand given");
 
-        if ( pType.equals("AA") || pType.equals("AAA") )
-        {
-            this.type = pType;
-        }
-        else
-        {
-            throw new IllegalArgumentException("Battery type unknown");
-        }
+        if ( pType == null )
+            throw new IllegalArgumentException("No type given");
 
         this.name = pName;
         this.brand = pBrand;
+        this.type = pType;
         this.voltageList = new ArrayList<Entry<LocalDateTime,Double>>();
     }
 
@@ -111,7 +106,7 @@ public class Battery {
         return this.brand;
     }
 
-    public String getType()
+    public Type getType()
     {
         return this.type;
     }
