@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import AccuStat.Battery;
 import AccuStat.Brand;
 import AccuStat.Main;
 import AccuStat.Type;
@@ -98,13 +99,19 @@ public class GUI_AddBattery
                 (Brand) this.brands.getSelectedItem());
 
         this.textfield.setText("");
+
+        ArrayList<Battery> batts = Main.get_Batteries();
+
+        System.out.println("NEW OUTPUT");
+        for ( Battery b : batts )
+            System.out.println(b);
     }
 
     public void openMe()
     {
         this.dialog.setVisible(true);
         this.populate();
-        this.superCall.populateBatteryComboBox();
+        //this.superCall.populateBatteryComboBox();
     }
 
     private void populate()

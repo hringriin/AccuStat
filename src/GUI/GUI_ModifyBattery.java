@@ -86,7 +86,8 @@ public class GUI_ModifyBattery
 
         this.cancel.addActionListener(e -> this.dialog.setVisible(false));
 
-        this.batteries.addActionListener(e -> this.populateBatteryComboBox());
+        // this shit does not work ...
+        //        this.batteries.addActionListener(e -> this.populateBatteryComboBox());
 
         dialog.setSize(320, 250);
 
@@ -143,6 +144,8 @@ public class GUI_ModifyBattery
     public void populateBatteryComboBox()
     {
         this.batteries.removeAllItems();
+        this.labelBrandItem.setText("");
+        this.labelTypeItem.setText("");
 
         ArrayList<Battery> battList = Main.get_Batteries();
 
@@ -150,9 +153,14 @@ public class GUI_ModifyBattery
         {
             this.batteries.addItem(b);
         }
-
-        Battery bat = (Battery) this.batteries.getSelectedItem();
-        this.labelBrandItem.setText(bat.getBrand().toString());
-        this.labelTypeItem.setText(bat.getType().toString());
+        // this shit should work but it doesnt because of i don't know
+        //
+        //        Battery bat = (Battery) this.batteries.getSelectedItem();
+        //
+        //        if ( bat != null )
+        //        {
+        //            this.labelBrandItem.setText(bat.getBrand().toString());
+        //            this.labelTypeItem.setText(bat.getType().toString());
+        //        }
     }
 }
