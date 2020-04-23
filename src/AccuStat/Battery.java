@@ -34,6 +34,11 @@ public class Battery {
     private ArrayList<Entry<LocalDateTime,Double>> voltageList;
 
     /**
+     * design of battery (500 mAh, 1000 mAh, ...)
+     */
+    private String design;
+
+    /**
      * Create a new battery
      *
      * @param pName The name/id of the battery
@@ -65,6 +70,14 @@ public class Battery {
     }
 
     /**
+     * @return the design of the battery
+     */
+    public String getDesign()
+    {
+        return this.design;
+    }
+
+    /**
      * @return the current or last known voltage of the battery
      */
     public double getVoltage()
@@ -80,6 +93,22 @@ public class Battery {
     public ArrayList<Entry<LocalDateTime,Double>> getVoltages()
     {
         return new ArrayList<Entry<LocalDateTime,Double>>(this.voltageList);
+    }
+
+    /**
+     * the design is the power capacity, like 500 mAh or 1000 mAh
+     *
+     * @param pString the new design
+     * @return if {@code pString} is valid, return true
+     */
+    public boolean setDesign ( final String pString )
+    {
+        if ( pString.equals("") || pString == null )
+            throw new IllegalArgumentException("Design must not be null or empty!");
+
+        this.design = pString;
+
+        return true;
     }
 
     /**
@@ -101,16 +130,25 @@ public class Battery {
         return true;
     }
 
+    /**
+     * @return the brand of the battery
+     */
     public Brand getBrand ()
     {
         return this.brand;
     }
 
+    /**
+     * @return the type of the battery (AA, AAA, ...)
+     */
     public Type getType()
     {
         return this.type;
     }
 
+    /**
+     * return something useful
+     */
     @Override
     public String toString()
     {

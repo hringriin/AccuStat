@@ -16,25 +16,54 @@ import javax.swing.border.EmptyBorder;
 import AccuStat.Brand;
 import AccuStat.Main;
 
+/**
+ * to be used to modify a brand
+ *
+ * @author Joschka Köster
+ *
+ */
 public class GUI_ModifyBrand
 {
+    /**
+     * the main dialog in this class
+     */
     private JDialog dialog;
 
+    /**
+     * main and lower panel, containing the form fields and the close button
+     */
     private JPanel panel = new JPanel ( new GridLayout(3, 2, 10, 10));
     private JPanel downPanel = new JPanel();
 
+    /**
+     * labels for form fields
+     */
     private JLabel label = new JLabel("Enter Brand name: ");
     private JLabel labelBrand = new JLabel("Select Brand: ");
 
+    /**
+     * buttons to add, remove brands and close the dialog
+     */
     private JButton save = new JButton("Add");
     private JButton remove = new JButton("Remove");
     private JButton cancel = new JButton("Close");
 
+    /**
+     * combobox containing all the brands
+     */
     private JComboBox<Brand> brands = new JComboBox<Brand>();
 
+    /**
+     * textfield to enter a new brand name
+     */
     private JTextField textfield = new JTextField(15);
 
-    public GUI_ModifyBrand (JFrame pFrame, GUI_Main pGUI)
+    /**
+     * main constructor, taking a pframe and
+     *
+     * @param pFrame the frame to be locked while this dialog remains open
+     */
+    public GUI_ModifyBrand (JFrame pFrame)
     {
         this.dialog = new JDialog(pFrame);
 
@@ -65,17 +94,26 @@ public class GUI_ModifyBrand
         this.dialog.getContentPane().add(BorderLayout.SOUTH, this.downPanel);
     }
 
+    /**
+     * set this dialog visible
+     */
     public void openMe()
     {
         this.dialog.setVisible(true);
         this.populateComboBox();
     }
 
+    /**
+     * set this dialog invisible
+     */
     public void closeMe()
     {
         this.dialog.setVisible(false);
     }
 
+    /**
+     * save a new brand to the list, delete the content of the textfield and repopulate the combobox
+     */
     public void save()
     {
         Main.newBrand(this.textfield.getText());
@@ -83,12 +121,18 @@ public class GUI_ModifyBrand
         this.populateComboBox();
     }
 
+    /**
+     * remove the selected brand from the list
+     */
     public void remove()
     {
         Main.removeBrand((Brand) this.brands.getSelectedItem());
         this.populateComboBox();
     }
 
+    /**
+     * populate combobox with items from the brand list from the main class/method
+     */
     private void populateComboBox()
     {
         if ( brands.getItemCount() > 0 )

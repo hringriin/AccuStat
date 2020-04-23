@@ -16,32 +16,78 @@ import AccuStat.Main;
 
 public class GUI_Main
 {
+    /**
+     * main JFrame to show the main window
+     */
     private JFrame frame = new JFrame("AccuStat " + Main.getVersionNumber());
 
+    /**
+     * the menubar, containing menus like "File", "Edit", "View", etc.
+     */
     private JMenuBar menubar = new JMenuBar();
 
+    /**
+     * a menu
+     */
     private JMenu fileMenu = new JMenu("File");
 
+    /**
+     * a menu item, responsible for closing the application properly
+     */
     private JMenuItem closeWindow = new JMenuItem("Exit");
 
+    /**
+     * the panel containing top parts, like the combobox for the battery list
+     */
     private JPanel panelNorth = new JPanel();
+
+    /**
+     * the panel containg extra buttons
+     */
     private JPanel panelSouth = new JPanel();
+
+    /**
+     * the panel containing nothing (for now)
+     */
     private JPanel panelWest = new JPanel();
+
+    /**
+     * the panel containing the buttons to modify brands, batteries and types
+     */
     private JPanel panelEast = new JPanel();
+
+    /**
+     * this panel will contain the main view, statistics and so on
+     */
     private JPanel panelCenter = new JPanel();
 
+    /**
+     * buttons to open a modify window for brands, batteries and types
+     */
     private JButton modifyBrand = new JButton ("Modify Brands");
     private JButton modifyAccu = new JButton ("Modify Batteries");
     private JButton modifyType = new JButton ("Modify Types");
 
+    /**
+     * the label for the select battery combobox
+     */
     private JLabel accuSelectLabel = new JLabel("Select Battery: ");
 
+    /**
+     * the battery combobox, containing all added batteries to select from and to show their stats in the center panel
+     */
     private JComboBox<Battery> accuSelect = new JComboBox<Battery>();
 
-    private GUI_ModifyBrand GUI_addBrand = new GUI_ModifyBrand(this.frame, this);
+    /**
+     * dialog windows to be opened via the respective buttons (see above)
+     */
+    private GUI_ModifyBrand GUI_addBrand = new GUI_ModifyBrand(this.frame);
     private GUI_ModifyBattery GUI_addBattery = new GUI_ModifyBattery(this.frame);
     private GUI_ModifyType GUI_addType = new GUI_ModifyType(this.frame);
 
+    /**
+     * constructor, basically setting up the window and doing layout stuff.
+     */
     public GUI_Main ()
     {
         this.menubar.add(fileMenu);

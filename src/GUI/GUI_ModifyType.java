@@ -16,24 +16,53 @@ import javax.swing.border.EmptyBorder;
 import AccuStat.Main;
 import AccuStat.Type;
 
+/**
+ * dialog to modify the type list
+ *
+ * @author hringriin
+ *
+ */
 public class GUI_ModifyType
 {
+    /**
+     * main dialog of this class
+     */
     private JDialog dialog;
 
+    /**
+     * main and lower panel (see GUI_ModifyBrand.java)
+     */
     private JPanel panel = new JPanel ( new GridLayout(5, 2, 10, 10));
     private JPanel downPanel = new JPanel();
 
+    /**
+     * labels for each form field (line)
+     */
     private JLabel labelName = new JLabel("Enter Type name: ");
     private JLabel labelType = new JLabel ("Select Type: ");
 
+    /**
+     * buttons to modify the list and close the dialog
+     */
     private JButton save = new JButton("Add");
     private JButton remove = new JButton("Remove");
     private JButton cancel = new JButton("Close");
 
+    /**
+     * combobox containing all the types
+     */
     private JComboBox<Type> types = new JComboBox<Type>();
 
+    /**
+     * textfield to add a new type name
+     */
     private JTextField textfield = new JTextField(15);
 
+    /**
+     * main constructor
+     *
+     * @param pFrame the frame to be locked while this dialog remains open
+     */
     public GUI_ModifyType(JFrame pFrame)
     {
         this.dialog = new JDialog(pFrame);
@@ -65,17 +94,26 @@ public class GUI_ModifyType
         this.dialog.getContentPane().add(BorderLayout.SOUTH, this.downPanel);
     }
 
+    /**
+     * set this dialog visible
+     */
     public void openMe()
     {
         this.dialog.setVisible(true);
         this.populateComboBox();
     }
 
+    /**
+     * set this dialog invisible
+     */
     public void closeMe()
     {
         this.dialog.setVisible(false);
     }
 
+    /**
+     * save a new type to the list
+     */
     public void save()
     {
         Main.newType(this.textfield.getText());
@@ -83,12 +121,18 @@ public class GUI_ModifyType
         this.populateComboBox();
     }
 
+    /**
+     * remove a type from the list
+     */
     public void remove()
     {
         Main.removeType((Type) this.types.getSelectedItem());
         this.populateComboBox();
     }
 
+    /**
+     * populate the combobox with items from the list
+     */
     private void populateComboBox()
     {
         types.removeAllItems();

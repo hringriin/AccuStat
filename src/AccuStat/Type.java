@@ -7,6 +7,11 @@ public class Type
      */
     private final String name;
 
+    /**
+     * taking a string for the type name
+     *
+     * @param pName the name of the type
+     */
     public Type ( final String pName )
     {
         if ( pName.equals("") || pName == null )
@@ -15,11 +20,17 @@ public class Type
         this.name = pName;
     }
 
+    /**
+     * @return the name of the type
+     */
     public String getName()
     {
         return this.name;
     }
 
+    /**
+     * return something useful
+     */
     @Override
     public String toString()
     {
