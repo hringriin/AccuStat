@@ -29,6 +29,11 @@ public class Battery {
     private double voltage;
 
     /**
+     * status of the battery, i.e. charing, in use, on hold, waiting, whatever
+     */
+    private String status;
+
+    /**
      * list of voltages with date of mesurement
      */
     private ArrayList<Entry<LocalDateTime,Double>> voltageList;
@@ -144,6 +149,19 @@ public class Battery {
     public Type getType()
     {
         return this.type;
+    }
+
+    public String getStatus()
+    {
+        return this.status;
+    }
+
+    public void setStatus(String pStatus)
+    {
+        if (pStatus.equals("") || pStatus == null )
+            throw new IllegalArgumentException("Status must not be null or empty!");
+
+        this.status = pStatus;
     }
 
     /**
