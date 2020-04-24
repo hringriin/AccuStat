@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -67,6 +68,8 @@ public class GUI_Main
     private JButton modifyBrand = new JButton ("Modify Brands");
     private JButton modifyAccu = new JButton ("Modify Batteries");
     private JButton modifyType = new JButton ("Modify Types");
+    private JButton refreshAccu = new JButton ("Refresh");
+    private JButton newMetering = new JButton ("New Metering");
 
     /**
      * the label for the select battery combobox
@@ -81,44 +84,71 @@ public class GUI_Main
     /**
      * dialog windows to be opened via the respective buttons (see above)
      */
-    private GUI_ModifyBrand GUI_addBrand = new GUI_ModifyBrand(this.frame);
-    private GUI_ModifyBattery GUI_addBattery = new GUI_ModifyBattery(this.frame);
-    private GUI_ModifyType GUI_addType = new GUI_ModifyType(this.frame);
+    private GUI_ModifyBrand GUI_modifyBrand = new GUI_ModifyBrand(this.frame);
+    private GUI_ModifyBattery GUI_modifyBattery = new GUI_ModifyBattery(this.frame, this);
+    private GUI_ModifyType GUI_modifyType = new GUI_ModifyType(this.frame);
+    private GUI_NewMetering GUI_newMetering = new GUI_NewMetering(this.frame);
 
     /**
      * constructor, basically setting up the window and doing layout stuff.
      */
     public GUI_Main ()
     {
-        this.menubar.add(fileMenu);
+        this.menubar.add(this.fileMenu);
 
         //this.fileMenu.add(openConnection);
-        this.fileMenu.add(closeWindow);
+        this.fileMenu.add(this.closeWindow);
 
         this.closeWindow.addActionListener(e -> System.exit(0));
 
         this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.frame.setSize(1000, 500);
 
-        this.modifyBrand.addActionListener(e -> this.GUI_addBrand.openMe());
-        this.modifyAccu.addActionListener(e -> this.GUI_addBattery.openMe());
-        this.modifyType.addActionListener(e -> this.GUI_addType.openMe());
+        this.modifyBrand.addActionListener(e -> this.GUI_modifyBrand.openMe());
+        this.modifyAccu.addActionListener(e -> this.GUI_modifyBattery.openMe());
+        this.modifyType.addActionListener(e -> this.GUI_modifyType.openMe());
+        this.refreshAccu.addActionListener(e -> this.refresh());
+        this.newMetering.addActionListener(e -> this.GUI_newMetering.openMe());
 
         this.frame.setVisible(true);
 
-        this.panelEast.add(modifyType);
-        this.panelEast.add(modifyBrand);
-        this.panelEast.add(modifyAccu);
+        this.panelEast.add(this.modifyType);
+        this.panelEast.add(this.modifyBrand);
+        this.panelEast.add(this.modifyAccu);
 
-        this.panelNorth.add(accuSelectLabel);
-        this.panelNorth.add(accuSelect);
+        this.panelNorth.add(this.accuSelectLabel);
+        this.panelNorth.add(this.accuSelect);
+        this.panelNorth.add(this.refreshAccu);
 
-        this.frame.getContentPane().add(BorderLayout.NORTH, panelNorth);
-        this.frame.getContentPane().add(BorderLayout.EAST, panelEast);
-        this.frame.getContentPane().add(BorderLayout.WEST, panelWest);
-        this.frame.getContentPane().add(BorderLayout.SOUTH, panelSouth);
-        this.frame.getContentPane().add(BorderLayout.CENTER, panelCenter);
+        this.frame.getContentPane().add(BorderLayout.NORTH, this.panelNorth);
+        this.frame.getContentPane().add(BorderLayout.EAST, this.panelEast);
+        this.frame.getContentPane().add(BorderLayout.WEST, this.panelWest);
+        this.frame.getContentPane().add(BorderLayout.SOUTH, this.panelSouth);
+        this.frame.getContentPane().add(BorderLayout.CENTER, this.panelCenter);
 
-        this.frame.setJMenuBar(menubar);
+        this.frame.setJMenuBar(this.menubar);
+    }
+
+    public void populate()
+    {
+        this.accuSelect.removeAllItems();
+
+        ArrayList<Battery> battList = Main.get_Batteries();
+
+        for ( Battery b : battList )
+            this.accuSelect.addItem(b);
+    }
+
+    public void populateAll()
+    {
+        this.populate();
+        this.GUI_modifyBrand.populate();
+        this.GUI_modifyType.populate();
+        this.GUI_modifyBattery.populate();
+    }
+
+    public void refresh()
+    {
+        System.out.println("You pressed 'refresh'. Gratz!");
     }
 }

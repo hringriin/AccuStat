@@ -100,7 +100,7 @@ public class GUI_ModifyBrand
     public void openMe()
     {
         this.dialog.setVisible(true);
-        this.populateComboBox();
+        Main.populateComboBoxes();
     }
 
     /**
@@ -118,7 +118,7 @@ public class GUI_ModifyBrand
     {
         Main.newBrand(this.textfield.getText());
         this.textfield.setText("");
-        this.populateComboBox();
+        Main.populateComboBoxes();
     }
 
     /**
@@ -127,25 +127,19 @@ public class GUI_ModifyBrand
     public void remove()
     {
         Main.removeBrand((Brand) this.brands.getSelectedItem());
-        this.populateComboBox();
+        Main.populateComboBoxes();
     }
 
     /**
      * populate combobox with items from the brand list from the main class/method
      */
-    private void populateComboBox()
+    public void populate()
     {
-        if ( brands.getItemCount() > 0 )
-            brands.removeAllItems();
+        brands.removeAllItems();
 
         ArrayList<Brand> brandList = Main.get_Brands();
 
-        if ( brandList.size() > 0 )
-        {
-            for ( Brand b : brandList )
-            {
-                brands.addItem(b);
-            }
-        }
+        for ( Brand b : brandList )
+            brands.addItem(b);
     }
 }

@@ -24,7 +24,7 @@ public class GUI_AddBattery
      */
     private JDialog dialog;
 
-    private GUI_ModifyBattery superCall;
+    private GUI_ModifyBattery GUI;
 
     /**
      * the main panel, containing the forms
@@ -62,14 +62,14 @@ public class GUI_AddBattery
 
     public GUI_AddBattery (JDialog pDialog, GUI_ModifyBattery pGUI)
     {
-        this.superCall = pGUI;
+        this.GUI = pGUI;
         this.dialog = new JDialog(pDialog);
 
         this.panel.setBorder(new EmptyBorder(10,10,10,10));
 
         this.save.addActionListener(e -> this.save());
 
-        this.cancel.addActionListener(e -> this.dialog.setVisible(false));
+        this.cancel.addActionListener(e -> this.closeMe());
 
         dialog.setSize(320, 250);
 
@@ -105,27 +105,34 @@ public class GUI_AddBattery
         System.out.println("NEW OUTPUT");
         for ( Battery b : batts )
             System.out.println(b);
+
+        Main.populateComboBoxes();
     }
 
     public void openMe()
     {
         this.dialog.setVisible(true);
-        this.populate();
-        //this.superCall.populateBatteryComboBox();
+        Main.populateComboBoxes();
     }
 
-    private void populate()
+    public void closeMe()
+    {
+        this.dialog.setVisible(false);
+        this.GUI.openMe();
+    }
+
+    public void populate()
     {
         this.brands.removeAllItems();
         this.types.removeAllItems();
 
-        ArrayList<Brand> brandList = new ArrayList<Brand>(Main.get_Brands());
-        ArrayList<Type> typeList = new ArrayList<Type>(Main.get_Types());
+        ArrayList<Brand> brandList = Main.get_Brands();
+        ArrayList<Type> typeList = Main.get_Types();
 
         for ( Brand b : brandList )
-            this.brands.addItem(b);
+            brands.addItem(b);
 
-        for ( Type p : typeList )
-            this.types.addItem(p);
+        for ( Type t : typeList )
+            types.addItem(t);
     }
 }

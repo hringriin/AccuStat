@@ -39,6 +39,8 @@ public class GUI_ModifyBattery
      */
     private JPanel downPanel = new JPanel();
 
+    private JPanel northPanel = new JPanel();
+
     /**
      * labels for each form field, i.e. each line
      */
@@ -54,6 +56,7 @@ public class GUI_ModifyBattery
     private JButton save = new JButton("New Battery");
     private JButton remove = new JButton("Remove");
     private JButton cancel = new JButton("Close");
+    private JButton refresh = new JButton("Refresh");
 
     /**
      * contains all the batteries
@@ -71,23 +74,27 @@ public class GUI_ModifyBattery
     private GUI_AddBattery guiAddBattery = new GUI_AddBattery(this.dialog, this);
 
     /**
+     * GUI Class
+     */
+    private GUI_Main GUI;
+
+    /**
      * the main constructor, taking a JFrame to be locked. does not work, yet, though.
      *
      * @param pFrame the JFrame to be locked while this dialog remains open
      */
-    public GUI_ModifyBattery(JFrame pFrame)
+    public GUI_ModifyBattery(JFrame pFrame, GUI_Main pGUI)
     {
+        this.GUI = pGUI;
         this.dialog = new JDialog(pFrame);
 
         this.panel.setBorder(new EmptyBorder(10,10,10,10));
 
-        this.save.addActionListener(e -> this.guiAddBattery.openMe());
+        this.save.addActionListener(e -> this.openAddBattery());
         this.remove.addActionListener(e -> remove());
+        this.refresh.addActionListener(e -> this.refresh());
 
-        this.cancel.addActionListener(e -> this.dialog.setVisible(false));
-
-        // this shit does not work ...
-        //        this.batteries.addActionListener(e -> this.populateBatteryComboBox());
+        this.cancel.addActionListener(e -> this.closeMe());
 
         dialog.setSize(320, 250);
 
@@ -107,9 +114,18 @@ public class GUI_ModifyBattery
 
         this.downPanel.add(cancel);
 
-        this.dialog.getContentPane().add(BorderLayout.NORTH, new JPanel().add(new JLabel("Modify Batteries")));
+        this.northPanel.add(new JLabel("Modify Batteries"));
+        this.northPanel.add(this.refresh);
+
+        this.dialog.getContentPane().add(BorderLayout.NORTH, this.northPanel);
         this.dialog.getContentPane().add(BorderLayout.CENTER, this.panel);
         this.dialog.getContentPane().add(BorderLayout.SOUTH, this.downPanel);
+    }
+
+    private void openAddBattery()
+    {
+        this.closeMe();
+        this.guiAddBattery.openMe();
     }
 
     /**
@@ -118,7 +134,7 @@ public class GUI_ModifyBattery
     public void openMe()
     {
         this.dialog.setVisible(true);
-        this.populateBatteryComboBox();
+        Main.populateComboBoxes();
     }
 
     /**
@@ -126,6 +142,7 @@ public class GUI_ModifyBattery
      */
     public void closeMe()
     {
+        Main.populateComboBoxes();
         this.dialog.setVisible(false);
     }
 
@@ -135,13 +152,13 @@ public class GUI_ModifyBattery
     public void remove()
     {
         Main.removeBattery((Battery) this.batteries.getSelectedItem());
-        this.populateBatteryComboBox();
+        Main.populateComboBoxes();
     }
 
     /**
      * populate the combobox with items from the arraylist in the main class and method
      */
-    public void populateBatteryComboBox()
+    public void populate()
     {
         this.batteries.removeAllItems();
         this.labelBrandItem.setText("");
@@ -150,17 +167,25 @@ public class GUI_ModifyBattery
         ArrayList<Battery> battList = Main.get_Batteries();
 
         for ( Battery b : battList )
-        {
             this.batteries.addItem(b);
-        }
-        // this shit should work but it doesnt because of i don't know
-        //
-        //        Battery bat = (Battery) this.batteries.getSelectedItem();
-        //
-        //        if ( bat != null )
-        //        {
-        //            this.labelBrandItem.setText(bat.getBrand().toString());
-        //            this.labelTypeItem.setText(bat.getType().toString());
-        //        }
+
+        this.guiAddBattery.populate();
+    }
+
+    public void populate(Battery pBattery, GUI_ModifyBattery pGUI)
+    {
+        this.labelBrandItem.setText(pBattery.getBrand().toString());
+        this.labelTypeItem.setText(pBattery.getType().toString());
+    }
+
+    public void refresh()
+    {
+        Battery bat = (Battery) this.batteries.getSelectedItem();
+
+        if ( bat == null )
+            return;
+
+        this.labelBrandItem.setText(bat.getBrand().toString());
+        this.labelTypeItem.setText(bat.getType().toString());
     }
 }

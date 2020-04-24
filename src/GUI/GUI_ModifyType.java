@@ -100,7 +100,7 @@ public class GUI_ModifyType
     public void openMe()
     {
         this.dialog.setVisible(true);
-        this.populateComboBox();
+        Main.populateComboBoxes();
     }
 
     /**
@@ -118,7 +118,7 @@ public class GUI_ModifyType
     {
         Main.newType(this.textfield.getText());
         this.textfield.setText("");
-        this.populateComboBox();
+        Main.populateComboBoxes();
     }
 
     /**
@@ -127,13 +127,13 @@ public class GUI_ModifyType
     public void remove()
     {
         Main.removeType((Type) this.types.getSelectedItem());
-        this.populateComboBox();
+        Main.populateComboBoxes();
     }
 
     /**
      * populate the combobox with items from the list
      */
-    private void populateComboBox()
+    public void populate()
     {
         types.removeAllItems();
 
