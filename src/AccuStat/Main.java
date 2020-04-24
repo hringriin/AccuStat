@@ -115,9 +115,6 @@ public class Main {
      */
     public static void removeBrand ( Brand pBrand )
     {
-        if ( pBrand == null )
-            throw new IllegalArgumentException("Brand name to be deleted must not be empty or null!");
-
         BRANDS.remove(pBrand);
     }
 
@@ -137,9 +134,6 @@ public class Main {
      */
     public static void removeType ( Type pType )
     {
-        if ( pType == null )
-            throw new IllegalArgumentException("Type name to be deleted must not be empty or null!");
-
         TYPES.remove(pType);
     }
 
@@ -169,9 +163,11 @@ public class Main {
      */
     public static void removeBattery ( Battery pBattery )
     {
-        if ( pBattery == null )
-            throw new IllegalArgumentException("Battery name to be deleted must not be empty or null!");
-
         BATTERIES.remove(pBattery);
+    }
+
+    public static void populateComboBoxes()
+    {
+        GUI.populateAll();
     }
 }
