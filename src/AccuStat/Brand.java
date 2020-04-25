@@ -1,5 +1,7 @@
 package AccuStat;
 
+import javax.swing.JFrame;
+
 public class Brand
 {
     /**
@@ -15,7 +17,7 @@ public class Brand
     public Brand ( final String pName )
     {
         if ( pName.equals("") || pName == null )
-            throw new IllegalArgumentException("Brand name must not be empty");
+            Main.throwError(new JFrame(), "Brand name must not be empty!");
 
         this.name = pName;
     }

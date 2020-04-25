@@ -6,6 +6,8 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import javax.swing.JFrame;
+
 public class Battery {
 
     /**
@@ -52,13 +54,13 @@ public class Battery {
     public Battery (final String pName, final Type pType, final Brand pBrand)
     {
         if ( pName.equals("") || pName == null )
-            throw new IllegalArgumentException("No name given");
+            Main.throwError(new JFrame(), "No name given!");
 
         if ( pBrand == null )
-            throw new IllegalArgumentException("No brand given");
+            Main.throwError(new JFrame(), "No brand given!");
 
         if ( pType == null )
-            throw new IllegalArgumentException("No type given");
+            Main.throwError(new JFrame(), "No type given!");
 
         this.name = pName;
         this.brand = pBrand;
@@ -109,7 +111,7 @@ public class Battery {
     public boolean setDesign ( final String pString )
     {
         if ( pString.equals("") || pString == null )
-            throw new IllegalArgumentException("Design must not be null or empty!");
+            Main.throwError(new JFrame(), "Design must not be null or empty!");
 
         this.design = pString;
 
@@ -159,7 +161,7 @@ public class Battery {
     public void setStatus(String pStatus)
     {
         if (pStatus.equals("") || pStatus == null )
-            throw new IllegalArgumentException("Status must not be null or empty!");
+            Main.throwError(new JFrame(), "Status must not be null or empty!");
 
         this.status = pStatus;
     }

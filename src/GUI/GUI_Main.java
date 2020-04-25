@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -120,6 +121,8 @@ public class GUI_Main
         this.panelNorth.add(this.accuSelect);
         this.panelNorth.add(this.refreshAccu);
 
+        this.panelWest.add(this.newMetering);
+
         this.frame.getContentPane().add(BorderLayout.NORTH, this.panelNorth);
         this.frame.getContentPane().add(BorderLayout.EAST, this.panelEast);
         this.frame.getContentPane().add(BorderLayout.WEST, this.panelWest);
@@ -150,5 +153,15 @@ public class GUI_Main
     public void refresh()
     {
         System.out.println("You pressed 'refresh'. Gratz!");
+    }
+
+    public void throwError(JDialog GUI, String pString)
+    {
+        new GUI_Error(GUI, pString);
+    }
+
+    public void throwError (JFrame GUI, String pString)
+    {
+        new GUI_Error(GUI, pString);
     }
 }

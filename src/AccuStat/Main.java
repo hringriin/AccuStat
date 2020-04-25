@@ -2,6 +2,9 @@ package AccuStat;
 
 import java.util.ArrayList;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+
 import GUI.GUI_Main;
 
 /**
@@ -80,7 +83,8 @@ public class Main {
         if ( BRANDS.size() > 0 )
             return new ArrayList<Brand>(BRANDS);
 
-        throw new IllegalArgumentException("HIER HAETTE ICH NICHT ANKOMMEN SOLLEN");
+        Main.throwError(new JFrame(), "HIER HÄTTE ICH NICHT ANKOMMEN SOLLEN!");
+        return null;
     }
 
     /**
@@ -105,7 +109,7 @@ public class Main {
     public static void newBrand( String pBrand )
     {
         if ( pBrand.equals("") || pBrand == null )
-            throw new IllegalArgumentException("Brand name must not be empty!");
+            Main.throwError(new JFrame(), "Brand name must not be empty!");
 
         BRANDS.add(new Brand(pBrand));
     }
@@ -124,7 +128,7 @@ public class Main {
     public static void newType ( String pType )
     {
         if ( pType.equals("") || pType == null )
-            throw new IllegalArgumentException("Type name must not be empty!");
+            Main.throwError(new JFrame(), "Type name must not be empty!");
 
         TYPES.add(new Type(pType));
     }
@@ -147,13 +151,13 @@ public class Main {
     public static void newBattery ( String pBattery, Type pType, Brand pBrand )
     {
         if ( pBattery.equals("") || pBattery == null )
-            throw new IllegalArgumentException("Battery name must not be empty!");
+            Main.throwError(new JFrame(), "Battery name must not be empty!");
 
         if ( pType == null )
-            throw new IllegalArgumentException("Type must not be empty!");
+            Main.throwError(new JFrame(), "Type must not be empty!");
 
         if ( pBrand == null )
-            throw new IllegalArgumentException("Brand must not be empty!");
+            Main.throwError(new JFrame(), "Brand must not be empty!");
 
         BATTERIES.add(new Battery(pBattery, pType, pBrand));
     }
@@ -169,5 +173,14 @@ public class Main {
     public static void populateComboBoxes()
     {
         GUI.populateAll();
+    }
+
+    public static void throwError(Object o, String pString)
+    {
+        if (o instanceof JFrame)
+            GUI.throwError((JFrame) o, pString);
+
+        if (o instanceof JDialog)
+            GUI.throwError((JDialog) o, pString);
     }
 }

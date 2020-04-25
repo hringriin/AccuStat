@@ -1,5 +1,7 @@
 package AccuStat;
 
+import javax.swing.JFrame;
+
 public class Type
 {
     /**
@@ -15,7 +17,7 @@ public class Type
     public Type ( final String pName )
     {
         if ( pName.equals("") || pName == null )
-            throw new IllegalArgumentException("Type name must not be empty");
+            Main.throwError(new JFrame(), "Type name must not be empty!");
 
         this.name = pName;
     }
