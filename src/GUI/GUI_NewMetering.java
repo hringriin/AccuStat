@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import AccuStat.Battery;
+import AccuStat.Main;
 
 public class GUI_NewMetering
 {
@@ -42,7 +44,7 @@ public class GUI_NewMetering
     private JButton cancel = new JButton("Close");
 
     private JTextField textVoltage = new JTextField();
-    private JTextField textState = new JTextField();
+    private JComboBox<String> textState = new JComboBox<String>();
 
     /**
      * battery list
@@ -58,6 +60,11 @@ public class GUI_NewMetering
 
     public GUI_NewMetering ( JFrame pFrame )
     {
+        this.textState.removeAllItems();
+        this.textState.addItem("Charging");
+        this.textState.addItem("In Use");
+        this.textState.addItem("Stored");
+
         this.dialog = new JDialog(pFrame);
 
         this.panel.setBorder(new EmptyBorder(10,10,10,10));
@@ -84,8 +91,19 @@ public class GUI_NewMetering
         this.dialog.getContentPane().add(BorderLayout.SOUTH, this.downPanel);
     }
 
+    public void populate()
+    {
+        this.batteries.removeAllItems();
+
+        ArrayList<Battery> battList = Main.get_Batteries();
+
+        for ( Battery b : battList )
+            this.batteries.addItem(b);
+    }
+
     public void openMe()
     {
+        Main.populateComboBoxes();
         this.dialog.setVisible(true);
     }
 
@@ -104,15 +122,20 @@ public class GUI_NewMetering
         }
         catch (Exception e)
         {
-
+            Main.throwError(this.dialog, "Something went wrong while parsing a Double from the voltage field.");
         }
 
-        bat.setStatus(this.textState.getText());
+        bat.setStatus(this.textState.getSelectedItem().toString());
+
+        this.textState.setSelectedItem(null);
+        this.textVoltage.setText("");
+
+        System.out.println(bat.toStringLong());
     }
 
     public void cancel()
     {
-        this.textState.setText("");
+        this.textState.setSelectedItem(null);
         this.textVoltage.setText("");
         this.closeMe();
     }

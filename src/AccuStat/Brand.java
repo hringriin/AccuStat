@@ -1,9 +1,15 @@
 package AccuStat;
 
+import java.io.Serializable;
+
 import javax.swing.JFrame;
 
-public class Brand
+public class Brand implements Serializable
 {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -6685595172207744195L;
     /**
      * name of the brand
      */

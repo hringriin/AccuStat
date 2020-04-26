@@ -1,11 +1,14 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -71,6 +74,9 @@ public class GUI_Main
     private JButton modifyType = new JButton ("Modify Types");
     private JButton refreshAccu = new JButton ("Refresh");
     private JButton newMetering = new JButton ("New Metering");
+    private JButton save = new JButton("Save");
+    private JButton saveAs = new JButton("Save As");
+    private JButton load = new JButton("Load");
 
     /**
      * the label for the select battery combobox
@@ -110,6 +116,36 @@ public class GUI_Main
         this.modifyType.addActionListener(e -> this.GUI_modifyType.openMe());
         this.refreshAccu.addActionListener(e -> this.refresh());
         this.newMetering.addActionListener(e -> this.GUI_newMetering.openMe());
+        this.save.addActionListener(e -> {
+            try
+            {
+                Main.saveMyShit();
+            } catch (IOException e1)
+            {
+                Main.throwError(this, e1.toString());
+            }
+        });
+
+        this.load.addActionListener(e -> {
+            try
+            {
+                Main.loadMyShit();
+            } catch (IOException e1)
+            {
+                Main.throwError(this, e1.toString());
+            }
+        });
+
+        this.saveAs.addActionListener(e -> {
+            try
+            {
+                Main.saveMyShitAss();
+            } catch (IOException e1)
+            {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
 
         this.frame.setVisible(true);
 
@@ -122,6 +158,10 @@ public class GUI_Main
         this.panelNorth.add(this.refreshAccu);
 
         this.panelWest.add(this.newMetering);
+
+        this.panelSouth.add(this.save);
+        this.panelSouth.add(this.saveAs);
+        this.panelSouth.add(this.load);
 
         this.frame.getContentPane().add(BorderLayout.NORTH, this.panelNorth);
         this.frame.getContentPane().add(BorderLayout.EAST, this.panelEast);
@@ -148,6 +188,7 @@ public class GUI_Main
         this.GUI_modifyBrand.populate();
         this.GUI_modifyType.populate();
         this.GUI_modifyBattery.populate();
+        this.GUI_newMetering.populate();
     }
 
     public void refresh()
@@ -163,5 +204,39 @@ public class GUI_Main
     public void throwError (JFrame GUI, String pString)
     {
         new GUI_Error(GUI, pString);
+    }
+
+    public String saveGUI()
+    {
+        String ret = "";
+
+        JFileChooser saveDialog = new JFileChooser();
+        saveDialog.setDialogTitle("Save My Shit!");
+
+        if ( saveDialog.showSaveDialog(this.frame) == JFileChooser.APPROVE_OPTION )
+        {
+            File file = saveDialog.getCurrentDirectory();
+            ret = file.getAbsolutePath();
+            System.out.println(ret);
+        }
+
+        return ret;
+    }
+
+    public String loadGUI()
+    {
+        String ret = "";
+
+        JFileChooser loadDialog = new JFileChooser();
+        loadDialog.setDialogTitle("Load My Shit!");
+
+        if ( loadDialog.showOpenDialog(this.frame) == JFileChooser.APPROVE_OPTION )
+        {
+            File file = loadDialog.getCurrentDirectory();
+            ret = file.getAbsolutePath();
+            System.out.println(ret);
+        }
+
+        return ret;
     }
 }

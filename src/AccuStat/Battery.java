@@ -1,5 +1,6 @@
 package AccuStat;
 
+import java.io.Serializable;
 //import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.AbstractMap;
@@ -8,7 +9,13 @@ import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 
-public class Battery {
+public class Battery implements Serializable
+{
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 250077405993564588L;
 
     /**
      * id/number/name
@@ -166,6 +173,20 @@ public class Battery {
         this.status = pStatus;
     }
 
+    private String listToString()
+    {
+        String ret = "";
+
+        for ( Entry<LocalDateTime, Double> e : this.getVoltages() )
+        {
+            ret += "\n\t\t";
+            ret += e.getValue();
+            ret += " V";
+        }
+
+        return ret;
+    }
+
     /**
      * return something useful
      */
@@ -177,5 +198,20 @@ public class Battery {
                 + this.getType()
                 + "): "
                 + this.getName();
+    }
+
+    public String toStringLong()
+    {
+        return "\n\n"
+                + this.toString()
+                + "\n"
+                + this.getStatus()
+                + "\n\t"
+                + "Last metered with: "
+                + this.getVoltage()
+                + " V"
+                + "\n\t"
+                + "Voltage List:"
+                + this.listToString();
     }
 }
