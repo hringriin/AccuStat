@@ -1,8 +1,10 @@
 package AccuStat;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 //import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Map.Entry;
@@ -173,7 +175,7 @@ public class Battery implements Serializable
         this.status = pStatus;
     }
 
-    private String listToString()
+    public String listToString()
     {
         String ret = "";
 
@@ -182,6 +184,22 @@ public class Battery implements Serializable
             ret += "\n\t\t";
             ret += e.getValue();
             ret += " V";
+        }
+
+        return ret;
+    }
+
+    public String listVoltages()
+    {
+        String ret = "";
+
+        for (Entry<LocalDateTime, Double> e : this.voltageList)
+        {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            ret += dtf.format(e.getKey())
+                    + ":\t"
+                    + new DecimalFormat("0.000").format(e.getValue())
+                    + " V\n";
         }
 
         return ret;

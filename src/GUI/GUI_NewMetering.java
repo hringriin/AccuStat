@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import AccuStat.Battery;
 import AccuStat.Main;
 
+@SuppressWarnings("unused")
 public class GUI_NewMetering
 {
     /**
@@ -115,6 +116,12 @@ public class GUI_NewMetering
     public void save()
     {
         Battery bat = (Battery) this.batteries.getSelectedItem();
+
+        if ( bat == null )
+        {
+            Main.throwError(this.dialog, "Select a battery first!");
+            return;
+        }
 
         try
         {

@@ -23,7 +23,7 @@ public class Brand implements Serializable
     public Brand ( final String pName )
     {
         if ( pName.equals("") || pName == null )
-            Main.throwError(new JFrame(), "Brand name must not be empty!");
+            Main.throwError(new JFrame(), "Brand name must not be empty!!!");
 
         this.name = pName;
     }

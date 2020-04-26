@@ -76,6 +76,7 @@ public class GUI_ModifyBattery
     /**
      * GUI Class
      */
+    @SuppressWarnings("unused")
     private GUI_Main GUI;
 
     /**

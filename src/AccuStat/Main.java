@@ -18,14 +18,14 @@ import GUI.GUI_Main;
  * This class contains all the important lists of objects
  *
  * @author Joschka Köster
- * @version 0.1a
+ * @version 0.1b
  * @since 0.1a
  */
 public class Main {
     /**
      * Version number
      */
-    private static String versionNumber = "v0.1a";
+    private static String versionNumber = "v0.1b";
 
     private static String savePath;
 
@@ -68,18 +68,6 @@ public class Main {
         TYPES = new ArrayList<Type>();
         BRANDS = new ArrayList<Brand>();
 
-        TYPES.add(new Type("AA"));
-        TYPES.add(new Type("AAA"));
-
-        BRANDS.add(new Brand("Varta"));
-
-        BATTERIES.add(new Battery("01", TYPES.get(0), BRANDS.get(0)));
-        BATTERIES.add(new Battery("02", TYPES.get(0), BRANDS.get(0)));
-        BATTERIES.add(new Battery("03", TYPES.get(0), BRANDS.get(0)));
-        BATTERIES.add(new Battery("01", TYPES.get(1), BRANDS.get(0)));
-        BATTERIES.add(new Battery("02", TYPES.get(1), BRANDS.get(0)));
-        BATTERIES.add(new Battery("03", TYPES.get(1), BRANDS.get(0)));
-
         Main.populateComboBoxes();
         Main.loadMyShit();
     }
@@ -97,11 +85,7 @@ public class Main {
      */
     public static ArrayList<Brand> get_Brands()
     {
-        if ( BRANDS.size() > 0 )
-            return new ArrayList<Brand>(BRANDS);
-
-        Main.throwError(new JFrame(), "HIER HÄTTE ICH NICHT ANKOMMEN SOLLEN!");
-        return null;
+        return new ArrayList<Brand>(BRANDS);
     }
 
     /**
@@ -125,9 +109,6 @@ public class Main {
      */
     public static void newBrand( String pBrand )
     {
-        if ( pBrand.equals("") || pBrand == null )
-            Main.throwError(new JFrame(), "Brand name must not be empty!");
-
         BRANDS.add(new Brand(pBrand));
     }
 
@@ -144,9 +125,6 @@ public class Main {
      */
     public static void newType ( String pType )
     {
-        if ( pType.equals("") || pType == null )
-            Main.throwError(new JFrame(), "Type name must not be empty!");
-
         TYPES.add(new Type(pType));
     }
 
@@ -167,15 +145,6 @@ public class Main {
      */
     public static void newBattery ( String pBattery, Type pType, Brand pBrand )
     {
-        if ( pBattery.equals("") || pBattery == null )
-            Main.throwError(new JFrame(), "Battery name must not be empty!");
-
-        if ( pType == null )
-            Main.throwError(new JFrame(), "Type must not be empty!");
-
-        if ( pBrand == null )
-            Main.throwError(new JFrame(), "Brand must not be empty!");
-
         BATTERIES.add(new Battery(pBattery, pType, pBrand));
     }
 
@@ -205,7 +174,7 @@ public class Main {
     {
         savePath = GUI.saveGUI();
 
-        if ( savePath.equals("") || savePath == null )
+        if (savePath == null || savePath.equals("") )
         {
             Main.throwError(new JFrame(), "No save path defined. Use 'Save As'.");
             return;
@@ -215,6 +184,9 @@ public class Main {
 
     public static void saveMyShit() throws IOException
     {
+        if (savePath == null || savePath.equals("") )
+            return;
+
         String battPath = savePath + "/Batteries";
         String brandPath = savePath + "/Brands";
         String typePath = savePath + "/Types";
@@ -248,36 +220,33 @@ public class Main {
     @SuppressWarnings("unchecked")
     public static void loadMyShit() throws IOException
     {
-        if ( savePath == null || savePath.equals("") )
-            savePath = GUI.loadGUI();
+        savePath = GUI.loadGUI();
+
+        if (savePath == null || savePath.equals("") )
+            return;
 
         String battPath = savePath + "/Batteries";
         String brandPath = savePath + "/Brands";
         String typePath = savePath + "/Types";
         String configPath = savePath + "/Config";
 
-        System.out.println("EINS");
         FileInputStream fin = new FileInputStream(battPath);
         ObjectInputStream ois = new ObjectInputStream(fin);
         try
         {
-            System.out.println("ZWEI");
             BATTERIES = (ArrayList<Battery>) ois.readObject();
         } catch (ClassNotFoundException e)
         {
-            System.out.println("DREI");
             Main.throwError(new JFrame(), e.toString());
             e.printStackTrace();
         }
         catch (IOException e)
         {
-            System.out.println("VIER");
             Main.throwError(new JFrame(), e.toString());
             e.printStackTrace();
         }
         finally
         {
-            System.out.println("FUENF");
             fin.close();
             ois.close();
         }
@@ -286,51 +255,42 @@ public class Main {
         ois = new ObjectInputStream(fin);
         try
         {
-            System.out.println("SECHZEHN");
             savePath = (String) ois.readObject();
         }
         catch (ClassNotFoundException e)
         {
-            System.out.println("SIEBZEHN");
             Main.throwError(new JFrame(), e.toString());
             e.printStackTrace();
         }
         catch (IOException e)
         {
-            System.out.println("ACHTZEHN");
             Main.throwError(new JFrame(), e.toString());
             e.printStackTrace();
         }
         finally
         {
-            System.out.println("NEUNZEHN");
             fin.close();
             ois.close();
         }
 
-        System.out.println("SECHS");
         fin = new FileInputStream(brandPath);
         ois = new ObjectInputStream(fin);
         try
         {
-            System.out.println("SIEBEN");
             BRANDS = (ArrayList<Brand>) ois.readObject();
         }
         catch (ClassNotFoundException e)
         {
-            System.out.println("ACHT");
             Main.throwError(new JFrame(), e.toString());
             e.printStackTrace();
         }
         catch (IOException e)
         {
-            System.out.println("NEUN");
             Main.throwError(new JFrame(), e.toString());
             e.printStackTrace();
         }
         finally
         {
-            System.out.println("ZEHN");
             fin.close();
             ois.close();
         }
@@ -339,28 +299,31 @@ public class Main {
         ois = new ObjectInputStream(fin);
         try
         {
-            System.out.println("ELF");
             TYPES = (ArrayList<Type>) ois.readObject();
         }
         catch (ClassNotFoundException e)
         {
-            System.out.println("ZWOELF");
             Main.throwError(new JFrame(), e.toString());
             e.printStackTrace();
         }
         catch (IOException e)
         {
-            System.out.println("DREIZEHN");
             Main.throwError(new JFrame(), e.toString());
             e.printStackTrace();
         }
         finally
         {
-            System.out.println("VIERZEHN");
             fin.close();
             ois.close();
             Main.populateComboBoxes();
         }
-        System.out.println("FUENFZEHN");
+    }
+
+    public static void allNew()
+    {
+        BATTERIES = new ArrayList<Battery>();
+        TYPES = new ArrayList<Type>();
+        BRANDS = new ArrayList<Brand>();
+        Main.populateComboBoxes();
     }
 }

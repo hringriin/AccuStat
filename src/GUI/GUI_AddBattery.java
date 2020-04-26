@@ -94,6 +94,9 @@ public class GUI_AddBattery
 
     private void save()
     {
+        if ( this.textfield.getText() == null || this.textfield.getText().equals("") )
+            return;
+
         Main.newBattery(this.textfield.getText(),
                 (Type) this.types.getSelectedItem(),
                 (Brand) this.brands.getSelectedItem());
