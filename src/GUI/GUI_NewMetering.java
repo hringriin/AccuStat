@@ -125,14 +125,13 @@ public class GUI_NewMetering
 
         try
         {
-            bat.setVoltage(Double.parseDouble(this.textVoltage.getText()));
+            bat.setMetering(Double.parseDouble(this.textVoltage.getText()),
+                    this.textState.getSelectedItem().toString());
         }
         catch (Exception e)
         {
             Main.throwError(this.dialog, "Something went wrong while parsing a Double from the voltage field.");
         }
-
-        bat.setStatus(this.textState.getSelectedItem().toString());
 
         this.textState.setSelectedItem(null);
         this.textVoltage.setText("");

@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.File;
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -25,7 +24,6 @@ import AccuStat.Main;
 
 public class GUI_Main
 {
-    private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     /**
      * main JFrame to show the main window
@@ -269,7 +267,7 @@ public class GUI_Main
                 this.batteryBrandContent.setText(bat.getBrand().toString());
                 this.batteryVoltageContent.setText(String.valueOf(bat.getVoltage()) + " V");
                 this.batteryStateContent.setText(bat.getStatus());
-                this.batteryDateContent.setText(dtf.format(bat.getVoltages().get(bat.getVoltages().size()-1).getKey()));
+                this.batteryDateContent.setText(bat.getDateString());
                 this.lastVoltagesList.setText(bat.listVoltages());
             }
             catch ( Exception e )

@@ -5,15 +5,12 @@ import java.text.DecimalFormat;
 //import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 
 public class Battery implements Serializable
 {
-
     /**
      *
      */
@@ -35,19 +32,10 @@ public class Battery implements Serializable
     private final Type type;
 
     /**
-     * last known voltage
-     */
-    private double voltage;
-
-    /**
-     * status of the battery, i.e. charing, in use, on hold, waiting, whatever
-     */
-    private String status;
-
-    /**
      * list of voltages with date of mesurement
      */
-    private ArrayList<Entry<LocalDateTime,Double>> voltageList;
+    //    private ArrayList<Entry<LocalDateTime,Double>> voltageList;
+    private ArrayList<Metering> voltageList;
 
     /**
      * design of battery (500 mAh, 1000 mAh, ...)
@@ -74,7 +62,7 @@ public class Battery implements Serializable
         this.name = pName;
         this.brand = pBrand;
         this.type = pType;
-        this.voltageList = new ArrayList<Entry<LocalDateTime,Double>>();
+        this.voltageList = new ArrayList<Metering>();
     }
 
     /**
@@ -98,7 +86,10 @@ public class Battery implements Serializable
      */
     public double getVoltage()
     {
-        return this.voltage;
+        if ( this.getVoltages().size() > 0 )
+            return this.getVoltages().get(this.getVoltages().size() - 1).getVoltage();
+
+        return -1;
     }
 
     /**
@@ -106,9 +97,9 @@ public class Battery implements Serializable
      *
      * @return list of voltages
      */
-    public ArrayList<Entry<LocalDateTime,Double>> getVoltages()
+    public ArrayList<Metering> getVoltages()
     {
-        return new ArrayList<Entry<LocalDateTime,Double>>(this.voltageList);
+        return new ArrayList<Metering>(this.voltageList);
     }
 
     /**
@@ -132,18 +123,31 @@ public class Battery implements Serializable
      *
      * @param pVoltage the new Voltage
      */
+    @Deprecated
     public boolean setVoltage( final double pVoltage )
     {
-        if ( pVoltage < 0 )
+        //        if ( pVoltage < 0 )
+        //            return false;
+        //
+        //        if ( pVoltage > 1.6 )
+        //            return false;
+        //
+        //        this.voltage = pVoltage;
+        //        this.voltageList.add(new AbstractMap.SimpleEntry<LocalDateTime,Double>(LocalDateTime.now(), pVoltage));
+        //
+        //        return true;
+        return false;
+    }
+
+    public boolean setMetering ( final double pVoltage, final String pState )
+    {
+        if ( pVoltage < 0 || pVoltage > 1.6 )
             return false;
 
-        if ( pVoltage > 1.6 )
+        if ( pState == null || pState.equals("") )
             return false;
 
-        this.voltage = pVoltage;
-        this.voltageList.add(new AbstractMap.SimpleEntry<LocalDateTime,Double>(LocalDateTime.now(), pVoltage));
-
-        return true;
+        return this.voltageList.add(new Metering(pVoltage, LocalDateTime.now(), pState));
     }
 
     /**
@@ -162,27 +166,44 @@ public class Battery implements Serializable
         return this.type;
     }
 
-    public String getStatus()
+    public LocalDateTime getDate()
     {
-        return this.status;
+        if ( this.getVoltages().size() > 0 )
+            return this.getVoltages().get(this.getVoltages().size() - 1).getDate();
+
+        return null;
     }
 
+    public String getDateString()
+    {
+        if ( this.getVoltages().size() > 0 )
+            return Main.dtf.format(this.getVoltages().get(this.getVoltages().size() - 1).getDate());
+
+        return null;
+    }
+
+    public String getStatus()
+    {
+        if ( this.getVoltages().size() > 0 )
+            return this.getVoltages().get(this.getVoltages().size() - 1).getState();
+
+        return null;
+    }
+
+    @Deprecated
     public void setStatus(String pStatus)
     {
-        if (pStatus.equals("") || pStatus == null )
-            Main.throwError(new JFrame(), "Status must not be null or empty!");
-
-        this.status = pStatus;
+        return;
     }
 
     public String listToString()
     {
         String ret = "";
 
-        for ( Entry<LocalDateTime, Double> e : this.getVoltages() )
+        for ( Metering m : this.getVoltages() )
         {
             ret += "\n\t\t";
-            ret += e.getValue();
+            ret += m.getVoltage();
             ret += " V";
         }
 
@@ -193,12 +214,12 @@ public class Battery implements Serializable
     {
         String ret = "";
 
-        for (Entry<LocalDateTime, Double> e : this.voltageList)
+        for (Metering m : this.getVoltages() )
         {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            ret += dtf.format(e.getKey())
+            ret += dtf.format(m.getDate())
                     + ":\t"
-                    + new DecimalFormat("0.000").format(e.getValue())
+                    + new DecimalFormat("0.000").format(m.getVoltage())
                     + " V\n";
         }
 

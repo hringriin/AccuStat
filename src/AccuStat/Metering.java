@@ -1,16 +1,20 @@
 package AccuStat;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.swing.JFrame;
 
-public class Metering
+public class Metering implements Serializable
 {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -3334049189103951084L;
+
     private double voltage;
     private LocalDateTime date;
     private String state;
-    private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public Metering ( double pVoltage, LocalDateTime pDate, String pState)
     {
@@ -43,7 +47,7 @@ public class Metering
     @Override
     public String toString()
     {
-        return dtf.format(this.getDate())
+        return Main.dtf.format(this.getDate())
                 + "("
                 + this.getState()
                 + "): "
