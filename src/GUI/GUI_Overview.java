@@ -87,7 +87,7 @@ public class GUI_Overview
 
         for ( Battery b : battList )
         {
-            if ( pStatus == null || b.getStatus().equals(pStatus) )
+            if ( pStatus == null || b.getStatus() == null || b.getStatus().equals(pStatus) )
             {
                 ret += b.toString()
                         + "\t\t"
