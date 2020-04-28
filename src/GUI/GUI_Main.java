@@ -24,7 +24,6 @@ import AccuStat.Main;
 
 public class GUI_Main
 {
-
     /**
      * main JFrame to show the main window
      */
@@ -82,6 +81,7 @@ public class GUI_Main
     private JButton saveAs = new JButton("Save As");
     private JButton load = new JButton("Load");
     private JButton buttonNew = new JButton("New");
+    private JButton overview = new JButton("Overview");
 
     /**
      * the label for the select battery combobox
@@ -148,6 +148,7 @@ public class GUI_Main
         this.refreshAccu.addActionListener(e -> this.refresh());
         this.newMetering.addActionListener(e -> this.GUI_newMetering.openMe());
         this.buttonNew.addActionListener(e -> Main.allNew());
+        this.overview.addActionListener(e -> new GUI_Overview(this.frame).openMe());
         this.save.addActionListener(e -> {
             try
             {
@@ -190,6 +191,7 @@ public class GUI_Main
         this.panelNorth.add(this.accuSelectLabel);
         this.panelNorth.add(this.accuSelect);
         this.panelNorth.add(this.refreshAccu);
+        this.panelNorth.add(this.overview);
 
         this.panelWest.add(this.newMetering);
 
