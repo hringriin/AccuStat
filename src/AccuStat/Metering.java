@@ -48,7 +48,7 @@ public class Metering implements Serializable
     public String toString()
     {
         return Main.dtf.format(this.getDate())
-                + "("
+                + " ("
                 + this.getState()
                 + "): "
                 + this.getVoltage()
