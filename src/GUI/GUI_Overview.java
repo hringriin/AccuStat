@@ -28,6 +28,7 @@ public class GUI_Overview
     private JButton charging = new JButton ("Show Charging");
     private JButton inUse = new JButton ("Show In-Use");
     private JButton stored = new JButton ("Show Stored");
+    private JButton other = new JButton ("Show Other");
 
     /**
      * the menubar, containing menus like "File", "Edit", "View", etc.
@@ -47,10 +48,11 @@ public class GUI_Overview
         this.dialog = new JDialog(pFrame);
         this.textpane.setEditable(false);
 
-        this.all.addActionListener(e -> this.populate(null));
+        this.all.addActionListener(e -> this.populate("all"));
         this.charging.addActionListener(e -> this.populate("Charging"));
         this.inUse.addActionListener(e -> this.populate("In Use"));
         this.stored.addActionListener(e -> this.populate("Stored"));
+        this.other.addActionListener(e -> this.populate(null));
 
         this.panelEast.add(this.all);
         this.panelEast.add(this.charging);
@@ -71,7 +73,7 @@ public class GUI_Overview
     public void openMe()
     {
         this.dialog.setVisible(true);
-        this.populate(null);
+        this.populate("all");
     }
 
     public void closeMe()
@@ -87,7 +89,7 @@ public class GUI_Overview
 
         for ( Battery b : battList )
         {
-            if ( pStatus == null || b.getStatus() == null || b.getStatus().equals(pStatus) )
+            if ( pStatus == "all" )
             {
                 ret += b.toString()
                         + "\t\t"
@@ -95,6 +97,27 @@ public class GUI_Overview
                         + ": \t"
                         + new DecimalFormat("0.000").format(b.getVoltage())
                         + "\n";
+            }
+            else if ( b.getStatus() != null && b.getStatus().equals(pStatus) )
+            {
+                ret += b.toString()
+                        + "\t\t"
+                        + b.getStatus()
+                        + ": \t"
+                        + new DecimalFormat("0.000").format(b.getVoltage())
+                        + "\n";
+            }
+            else if ( pStatus == null )
+            {
+                if ( b.getStatus() == null )
+                {
+                    ret += b.toString()
+                            + "\t\t"
+                            + ""
+                            + ": \t"
+                            + new DecimalFormat("0.000").format(b.getVoltage())
+                            + "\n";
+                }
             }
         }
 
