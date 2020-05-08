@@ -57,7 +57,7 @@ public class GUI_Main
     /**
      * the panel containing nothing (for now)
      */
-    private JPanel panelWest = new JPanel();
+    private JPanel panelWest = new JPanel(new GridLayout(2, 1, 10, 10));
 
     /**
      * the panel containing the buttons to modify brands, batteries and types
