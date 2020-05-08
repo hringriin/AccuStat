@@ -77,6 +77,7 @@ public class GUI_Main
     private JButton modifyType = new JButton ("Modify Types");
     private JButton refreshAccu = new JButton ("Refresh");
     private JButton newMetering = new JButton ("New Metering");
+    private JButton deleteMetering = new JButton ("Delete Metering");
     private JButton save = new JButton("Save");
     private JButton saveAs = new JButton("Save As");
     private JButton load = new JButton("Load");
@@ -124,6 +125,7 @@ public class GUI_Main
     private GUI_ModifyBattery GUI_modifyBattery = new GUI_ModifyBattery(this.frame, this);
     private GUI_ModifyType GUI_modifyType = new GUI_ModifyType(this.frame);
     private GUI_NewMetering GUI_newMetering = new GUI_NewMetering(this.frame);
+    private GUI_DeleteMetering GUI_deleteMetering = new GUI_DeleteMetering(this.frame);
 
     /**
      * constructor, basically setting up the window and doing layout stuff.
@@ -147,6 +149,7 @@ public class GUI_Main
         this.modifyType.addActionListener(e -> this.GUI_modifyType.openMe());
         this.refreshAccu.addActionListener(e -> this.refresh());
         this.newMetering.addActionListener(e -> this.GUI_newMetering.openMe());
+        this.deleteMetering.addActionListener(e -> this.GUI_deleteMetering.openMe());
         this.buttonNew.addActionListener(e -> Main.allNew());
         this.overview.addActionListener(e -> new GUI_Overview(this.frame).openMe());
         this.save.addActionListener(e -> {
@@ -194,6 +197,7 @@ public class GUI_Main
         this.panelNorth.add(this.overview);
 
         this.panelWest.add(this.newMetering);
+        this.panelWest.add(this.deleteMetering);
 
         this.panelSouth.add(this.buttonNew);
         this.panelSouth.add(this.save);
@@ -243,6 +247,8 @@ public class GUI_Main
         this.GUI_modifyType.populate();
         this.GUI_modifyBattery.populate();
         this.GUI_newMetering.populate();
+        this.GUI_deleteMetering.populate();
+        System.out.println("You pressed 'popAll'.");
     }
 
     public void refresh()
