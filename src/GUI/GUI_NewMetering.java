@@ -41,7 +41,6 @@ public class GUI_NewMetering
      * buttons to modify the list and close the dialog
      */
     private JButton save = new JButton("Add");
-    private JButton remove = new JButton("Remove");
     private JButton cancel = new JButton("Close");
 
     private JTextField textVoltage = new JTextField();
