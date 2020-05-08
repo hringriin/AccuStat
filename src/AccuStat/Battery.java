@@ -35,7 +35,7 @@ public class Battery implements Serializable
      * list of voltages with date of mesurement
      */
     //    private ArrayList<Entry<LocalDateTime,Double>> voltageList;
-    private ArrayList<Metering> voltageList;
+    private ArrayList<Metering> meterings;
 
     /**
      * design of battery (500 mAh, 1000 mAh, ...)
@@ -62,7 +62,7 @@ public class Battery implements Serializable
         this.name = pName;
         this.brand = pBrand;
         this.type = pType;
-        this.voltageList = new ArrayList<Metering>();
+        this.meterings = new ArrayList<Metering>();
     }
 
     /**
@@ -86,8 +86,8 @@ public class Battery implements Serializable
      */
     public double getVoltage()
     {
-        if ( this.getVoltages().size() > 0 )
-            return this.getVoltages().get(this.getVoltages().size() - 1).getVoltage();
+        if ( this.getMeterings().size() > 0 )
+            return this.getMeterings().get(this.getMeterings().size() - 1).getVoltage();
 
         return -1;
     }
@@ -97,9 +97,9 @@ public class Battery implements Serializable
      *
      * @return list of voltages
      */
-    public ArrayList<Metering> getVoltages()
+    public ArrayList<Metering> getMeterings()
     {
-        return new ArrayList<Metering>(this.voltageList);
+        return new ArrayList<Metering>(this.meterings);
     }
 
     /**
@@ -118,28 +118,7 @@ public class Battery implements Serializable
         return true;
     }
 
-    /**
-     * Set the new current voltage for the battery
-     *
-     * @param pVoltage the new Voltage
-     */
-    @Deprecated
-    public boolean setVoltage( final double pVoltage )
-    {
-        //        if ( pVoltage < 0 )
-        //            return false;
-        //
-        //        if ( pVoltage > 1.6 )
-        //            return false;
-        //
-        //        this.voltage = pVoltage;
-        //        this.voltageList.add(new AbstractMap.SimpleEntry<LocalDateTime,Double>(LocalDateTime.now(), pVoltage));
-        //
-        //        return true;
-        return false;
-    }
-
-    public boolean setMetering ( final double pVoltage, final String pState )
+    public boolean addMetering ( final double pVoltage, final String pState )
     {
         if ( pVoltage < 0 || pVoltage > 1.6 )
             return false;
@@ -147,7 +126,15 @@ public class Battery implements Serializable
         if ( pState == null || pState.equals("") )
             return false;
 
-        return this.voltageList.add(new Metering(pVoltage, LocalDateTime.now(), pState));
+        return this.meterings.add(new Metering(pVoltage, LocalDateTime.now(), pState));
+    }
+
+    public boolean removeMetering ( final Metering pMetering )
+    {
+        if ( pMetering == null )
+            return false;
+
+        return this.meterings.remove(pMetering);
     }
 
     /**
@@ -168,24 +155,24 @@ public class Battery implements Serializable
 
     public LocalDateTime getDate()
     {
-        if ( this.getVoltages().size() > 0 )
-            return this.getVoltages().get(this.getVoltages().size() - 1).getDate();
+        if ( this.getMeterings().size() > 0 )
+            return this.getMeterings().get(this.getMeterings().size() - 1).getDate();
 
         return null;
     }
 
     public String getDateString()
     {
-        if ( this.getVoltages().size() > 0 )
-            return Main.dtf.format(this.getVoltages().get(this.getVoltages().size() - 1).getDate());
+        if ( this.getMeterings().size() > 0 )
+            return Main.dtf.format(this.getMeterings().get(this.getMeterings().size() - 1).getDate());
 
         return null;
     }
 
     public String getStatus()
     {
-        if ( this.getVoltages().size() > 0 )
-            return this.getVoltages().get(this.getVoltages().size() - 1).getState();
+        if ( this.getMeterings().size() > 0 )
+            return this.getMeterings().get(this.getMeterings().size() - 1).getState();
 
         return null;
     }
@@ -200,7 +187,7 @@ public class Battery implements Serializable
     {
         String ret = "";
 
-        for ( Metering m : this.getVoltages() )
+        for ( Metering m : this.getMeterings() )
         {
             ret += "\n\t\t";
             ret += m.getVoltage();
@@ -214,7 +201,7 @@ public class Battery implements Serializable
     {
         String ret = "";
 
-        for (Metering m : this.getVoltages() )
+        for (Metering m : this.getMeterings() )
         {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             ret += dtf.format(m.getDate())

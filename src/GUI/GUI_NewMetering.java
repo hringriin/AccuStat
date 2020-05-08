@@ -125,7 +125,7 @@ public class GUI_NewMetering
 
         try
         {
-            bat.setMetering(Double.parseDouble(this.textVoltage.getText()),
+            bat.addMetering(Double.parseDouble(this.textVoltage.getText()),
                     this.textState.getSelectedItem().toString());
         }
         catch (Exception e)
