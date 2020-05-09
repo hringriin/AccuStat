@@ -31,6 +31,8 @@ public class Battery implements Serializable
      */
     private final Type type;
 
+    private String comment;
+
     /**
      * list of voltages with date of mesurement
      */
@@ -63,6 +65,23 @@ public class Battery implements Serializable
         this.brand = pBrand;
         this.type = pType;
         this.meterings = new ArrayList<Metering>();
+    }
+
+    public String getComment()
+    {
+        return this.comment;
+    }
+
+    public boolean setComment(final String pComment)
+    {
+        if ( pComment == null )
+        {
+            Main.throwError(new JFrame(), "Comment must not be null, but may be empty String or anything else parsable as String.");
+            return false;
+        }
+
+        this.comment = pComment;
+        return true;
     }
 
     /**

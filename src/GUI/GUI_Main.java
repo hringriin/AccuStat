@@ -95,6 +95,9 @@ public class GUI_Main
     private JLabel batteryState = new JLabel("Current State: ");
     private JLabel batteryStateContent = new JLabel("");
 
+    private JLabel batteryComment = new JLabel("Comment: ");
+    private JLabel batteryCommentContent = new JLabel("");
+
     private JLabel batteryVoltage = new JLabel("Current Voltage: ");
     private JLabel batteryVoltageContent = new JLabel("");
 
@@ -208,6 +211,8 @@ public class GUI_Main
         this.panelCenter.add(batteryNameContent);
         this.panelCenter.add(batteryState);
         this.panelCenter.add(batteryStateContent);
+        this.panelCenter.add(batteryComment);
+        this.panelCenter.add(batteryCommentContent);
         this.panelCenter.add(batteryVoltage);
         this.panelCenter.add(batteryVoltageContent);
         this.panelCenter.add(batteryDate);
@@ -265,6 +270,7 @@ public class GUI_Main
             this.batteryStateContent.setText("");
             this.batteryDateContent.setText("");
             this.lastVoltagesList.setText("");
+            this.batteryCommentContent.setText("");
         }
         else
         {
@@ -277,6 +283,7 @@ public class GUI_Main
                 this.batteryStateContent.setText(bat.getStatus());
                 this.batteryDateContent.setText(bat.getDateString());
                 this.lastVoltagesList.setText(bat.listVoltages());
+                this.batteryCommentContent.setText(bat.getComment());
             }
             catch ( Exception e )
             {

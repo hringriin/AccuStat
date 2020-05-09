@@ -27,7 +27,7 @@ public class GUI_NewMetering
     /**
      * main and lower panel (see GUI_ModifyBrand.java)
      */
-    private JPanel panel = new JPanel ( new GridLayout(5, 2, 10, 10));
+    private JPanel panel = new JPanel ( new GridLayout(6, 2, 10, 10));
     private JPanel downPanel = new JPanel();
 
     /**
@@ -35,6 +35,7 @@ public class GUI_NewMetering
      */
     private JLabel labelBattery = new JLabel ("Select Battery: ");
     private JLabel labelVoltage = new JLabel ("Voltage: ");
+    private JLabel labelComment = new JLabel ("Comment: ");
     private JLabel labelState = new JLabel ("State: ");
 
     /**
@@ -45,6 +46,7 @@ public class GUI_NewMetering
 
     private JTextField textVoltage = new JTextField();
     private JComboBox<String> textState = new JComboBox<String>();
+    private JTextField textComment = new JTextField();
 
     /**
      * battery list
@@ -79,6 +81,9 @@ public class GUI_NewMetering
 
         this.panel.add(this.labelState);
         this.panel.add(this.textState);
+
+        this.panel.add(this.labelComment);
+        this.panel.add(this.textComment);
 
         this.panel.add(this.labelVoltage);
         this.panel.add(this.textVoltage);
@@ -122,6 +127,8 @@ public class GUI_NewMetering
             return;
         }
 
+        bat.setComment(this.textComment.getText());
+
         try
         {
             bat.addMetering(Double.parseDouble(this.textVoltage.getText()),
@@ -142,6 +149,7 @@ public class GUI_NewMetering
     {
         this.textState.setSelectedItem(null);
         this.textVoltage.setText("");
+        this.textComment.setText("");
         this.closeMe();
     }
 }
