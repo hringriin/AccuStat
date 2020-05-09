@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -161,6 +162,9 @@ public class Main {
 
     public static void populateComboBoxes()
     {
+        Collections.sort(BATTERIES, new Comparator_Battery());
+        Collections.sort(BRANDS, new Comparator_Brand());
+        Collections.sort(TYPES, new Comparator_Type());
         GUI.populateAll();
     }
 
