@@ -91,20 +91,28 @@ public class GUI_Overview
         {
             if ( pStatus == "all" )
             {
-                ret += b.toString()
+                ret += b.getDateString()
+                        + "\t"
+                        + b.toString()
                         + "\t\t"
                         + (b.getStatus() == null ? "" : b.getStatus())
                         + ": \t"
                         + new DecimalFormat("0.000").format(b.getVoltage())
+                        + "\t"
+                        + b.getComment()
                         + "\n";
             }
             else if ( b.getStatus() != null && b.getStatus().equals(pStatus) )
             {
-                ret += b.toString()
+                ret += b.getDateString()
+                        + "\t"
+                        + b.toString()
                         + "\t\t"
                         + b.getStatus()
                         + ": \t"
                         + new DecimalFormat("0.000").format(b.getVoltage())
+                        + "\t"
+                        + b.getComment()
                         + "\n";
             }
             else if ( pStatus == null )

@@ -20,14 +20,14 @@ import GUI.GUI_Main;
  * This class contains all the important lists of objects
  *
  * @author Joschka Köster
- * @version 0.3.1
+ * @version 0.3.2
  * @since 0.1a
  */
 public class Main {
     /**
      * The Version number
      */
-    private static String versionNumber = "v0.3.1";
+    private static String versionNumber = "v0.3.2";
 
     public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
